@@ -1,7 +1,6 @@
 from typing import Tuple
 import cv2
 import numpy as np
-from numpy.lib.function_base import select
 
 (screen_width,screen_height) = (1920,1080)
 cameras_ids = [1,2]
@@ -97,6 +96,7 @@ def onMouse(event, x, y, flags, param):
 cv2.namedWindow(windowname) 
 cv2.setMouseCallback(windowname, onMouse)
 
+
 cameras=[]
 # Camera Handles
 for c in cameras_ids:
@@ -118,12 +118,9 @@ for c in cameras:
     c.cropsize = (w,screen_height)
 
 sel = len(cameras) # The selected window (last camera + 1 == none)
-frames = len(cameras)*[0]
+frames = len(cameras)*[0] # Init empty frames
 while True:
-    # frames = []
     for idx,c in enumerate(cameras):
-        # frame = c.read()
-        # frames.append(frame)
         frames[idx]=c.read()
     
     all = np.concatenate(frames, axis=1)
@@ -155,35 +152,4 @@ cv2.destroyWindow(windowname)
 
 for c in cameras:
     c.release()
-cv.destroyAllWindows()
-
-
-# def crosshair(img,pt,col):
-#     cv2.line(img,(0,pt[1]),(w2-w1,pt[1]),col,thickness=1)
-#     cv2.line(img,(pt[0],0),(pt[0],h),col,thickness=1)
-
-# while rval:
-#     c = frame[0:h-1, int(0.25*w):int(0.75*w)]
-#     # crosshair(c,p1,(0,255,0))
-#     # crosshair(c,p2,(0,0,255))
-#     two = np.concatenate((c, c), axis=1)
-
-#     cv2.imshow("ecPlacer", two)
-
-#     # for c in handles.keys:
-#     #     pass
-
-#     # rval, frame = vcam1.read()
-    
-#     cam1 = frame
-#     cam2 = frame
-
-#     # cv2.setWindowProperty(windowname,cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
-
-#     # (a,b,screenWidth,screenHeight) = cv2.getWindowImageRect(windowname)
-
-
-#     key = cv2.waitKey(20)
-#     if key == 27: # exit on ESC
-#         break
-# cv2.destroyWindow(windowname)
+cv2.destroyAllWindows()
